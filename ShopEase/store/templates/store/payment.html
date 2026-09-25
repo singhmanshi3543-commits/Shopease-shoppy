@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ShopEase Payment</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .payment-container {
+            width: 90%;
+            max-width: 500px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 25px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #111827;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="payment-container">
+
+        <h1>💳 Complete Your Payment</h1>
+
+        <p>ShopEase Order</p>
+
+        <div class="amount">
+            Amount: ₹{{ display_amount }}
+        </div>
+
+        <button id="pay-btn">
+            Pay Now
+        </button>
+
+    </div>
+
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+    <script>
+
+        var options = {
+
+            "key": "{{ razorpay_key }}",
+
+            "amount": "{{ amount }}",
+
+            "currency": "INR",
+
+            "name": "ShopEase",
+
+            "description": "ShopEase Order Payment",
+
+            "order_id": "{{ order_id }}",
+
+            "handler": function (response) {
+
+                var url =
+                    "/payment-success/" +
+                    "?razorpay_payment_id=" +
+                    encodeURIComponent(response.razorpay_payment_id) +
+                    "&razorpay_order_id=" +
+                    encodeURIComponent(response.razorpay_order_id) +
+                    "&razorpay_signature=" +
+                    encodeURIComponent(response.razorpay_signature);
+
+                window.location.href = url;
+            },
+
+            "theme": {
+                "color": "#111827"
+            }
+
+        };
+
+
+        var rzp = new Razorpay(options);
+
+
+        rzp.on('payment.failed', function (response) {
+
+            alert(
+                "Payment Failed: " +
+                response.error.description
+            );
+
+        });
+
+
+        document.getElementById("pay-btn").onclick = function(e) {
+
+            e.preventDefault();
+
+            rzp.open();
+
+        };
+
+    </script>
+
+</body>
+
+</html>

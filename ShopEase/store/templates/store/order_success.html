@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Successful - ShopEase</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .success-box {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            padding: 45px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .order-number {
+            margin: 25px 0;
+            padding: 15px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 25px;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 7px;
+            background: #111827;
+            color: white;
+        }
+
+        a:hover {
+            background: #2563eb;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="success-box">
+
+    <div class="icon">
+        ✅
+    </div>
+
+    <h1>Order Placed Successfully!</h1>
+
+    <p>
+        Thank you for shopping with ShopEase.
+    </p>
+
+    <p>
+        Your order has been successfully placed.
+    </p>
+
+    <div class="order-number">
+
+        Order #{{ order.id }}
+
+        <br><br>
+
+        Total Amount: ₹{{ order.total_amount }}
+
+    </div>
+
+    <p>
+        Order Status: <strong>{{ order.status }}</strong>
+    </p>
+
+    <div class="buttons">
+
+        <a href="{% url 'order_detail' order.id %}">
+            View Order
+        </a>
+
+        <a href="{% url 'my_orders' %}">
+            My Orders
+        </a>
+
+        <a href="{% url 'home' %}">
+            Continue Shopping
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

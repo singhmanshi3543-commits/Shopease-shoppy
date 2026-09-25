@@ -1,0 +1,188 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Shopping Cart | ShopEase</title>
+
+<link rel="stylesheet"
+      href="{% static 'store/css/style.css' %}">
+
+<style>
+
+    .checkout-btn {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 14px 28px;
+        background: #111827;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .checkout-btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+    }
+
+    .cart-total {
+        margin-top: 30px;
+        text-align: right;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<nav class="navbar">
+
+    <div class="logo">
+        🛍️ ShopEase
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'home' %}#products">
+            Products
+        </a>
+
+        <a href="{% url 'cart' %}" class="cart">
+            🛒 Cart
+            <span>
+                {{ request.session.cart|length|default:0 }}
+            </span>
+        </a>
+
+    </div>
+
+</nav>
+
+
+<section class="cart-section">
+
+    <h1>Your Shopping Cart</h1>
+
+
+    {% if cart_items %}
+
+        {% for item in cart_items %}
+
+            <div class="cart-item">
+
+                <div>
+
+                    <h2>
+                        {{ item.product.name }}
+                    </h2>
+
+                    <p>
+                        ₹{{ item.product.price }}
+                        × {{ item.quantity }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        ₹{{ item.subtotal }}
+                    </strong>
+
+                    <br><br>
+
+                    <a href="{% url 'remove_from_cart' item.product.id %}">
+                        ❌ Remove
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+
+        <div class="cart-total">
+
+            <h2>
+                Total: ₹{{ total }}
+            </h2>
+
+
+            <!-- Proceed to Checkout -->
+
+            <a href="{% url 'checkout' %}"
+               class="checkout-btn">
+
+                Proceed to Checkout →
+
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-cart">
+
+            <h2>
+                🛒 Your cart is empty
+            </h2>
+
+            <p>
+                Add some products to your cart.
+            </p>
+
+            <a href="{% url 'home' %}"
+               class="back-btn">
+
+                ← Continue Shopping
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<footer>
+
+    <h2>ShopEase</h2>
+
+    <p>
+        Your simple destination for quality products.
+    </p>
+
+    <p class="copyright">
+        © 2026 ShopEase. All rights reserved.
+    </p>
+
+</footer>
+```
+
+</body>
+
+</html>

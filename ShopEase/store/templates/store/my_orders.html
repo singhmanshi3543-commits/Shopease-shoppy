@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders - ShopEase</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: #111827;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .order {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .order-info {
+            line-height: 1.8;
+        }
+
+        .view-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .view-btn:hover {
+            background: #2563eb;
+        }
+
+        .empty {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>🛍️ ShopEase</h2>
+
+    <div>
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'cart' %}">
+            🛒 Cart
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>📦 My Orders</h1>
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+            <div class="order">
+
+                <div class="order-header">
+
+                    <strong>
+                        Order #{{ order.id }}
+                    </strong>
+
+                    <span class="status">
+                        {{ order.status }}
+                    </span>
+
+                </div>
+
+
+                <div class="order-info">
+
+                    <p>
+                        <strong>Total:</strong>
+                        ₹{{ order.total_amount }}
+                    </p>
+
+                    <p>
+                        <strong>Items:</strong>
+                        {{ order.items.count }}
+                    </p>
+
+                    <p>
+                        <strong>Ordered on:</strong>
+                        {{ order.created_at|date:"d M Y, h:i A" }}
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{% url 'order_detail' order.id %}"
+                    class="view-btn"
+                >
+                    View Details →
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>No Orders Yet</h2>
+
+            <p>
+                You haven't placed any orders yet.
+            </p>
+
+            <br>
+
+            <a
+                href="{% url 'home' %}"
+                class="view-btn"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<footer>
+
+    <h3>ShopEase</h3>
+
+    <p>Your simple destination for quality products.</p>
+
+    <br>
+
+    <p>© 2026 ShopEase. All rights reserved.</p>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopEase | Online Store</title>
+
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            🛍️ ShopEase
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="#products">Products</a>
+
+            <a href="#about">About</a>
+
+            <a href="#contact">Contact</a>
+
+            <a href="/admin/">Admin</a>
+
+            <a href="{% url 'cart' %}" class="cart">
+                🛒 Cart
+                <span>{{ request.session.cart|length|default:0 }}</span>
+            </a>
+
+            <a href="{% url 'account' %}">
+                👤 My Account
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="small-heading">
+                WELCOME TO SHOPEASE
+            </p>
+
+            <h1>
+                Find Products<br>
+                You'll <span>Love.</span>
+            </h1>
+
+            <p>
+                Discover quality products at amazing prices.
+                Shop smarter, faster and easier.
+            </p>
+
+            <a href="#products" class="shop-btn">
+                Shop Now →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <section class="products-section" id="products">
+
+        <div class="section-heading">
+
+            <p>OUR COLLECTION</p>
+
+            <h2>Featured Products</h2>
+
+            <span>
+                Explore our handpicked products just for you.
+            </span>
+
+        </div>
+
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+            <div class="product-card">
+
+                <!-- Product Image -->
+
+                <div class="product-image">
+
+                    {% if product.image %}
+
+                        <img
+                            src="{{ watch.png }}"
+                            alt="{{ smartwatch.name }}"
+                        >
+
+                    {% else %}
+
+                        <div class="Pictures/watch.png.png">
+                            🛍️
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Product Information -->
+
+                <div class="product-info">
+
+                    <p class="category">
+                        {{ product.get_category_display }}
+                    </p>
+
+                    <h3>
+                        {{ product.name }}
+                    </h3>
+
+                    <p class="description">
+                        {{ product.description|truncatewords:15 }}
+                    </p>
+
+
+                    <div class="product-bottom">
+
+                        <strong>
+                            ₹{{ product.price }}
+                        </strong>
+
+
+                        <!-- Add To Cart -->
+
+                        <form
+                            action="{% url 'add_to_cart' product.id %}"
+                            method="POST"
+                        >
+
+                            {% csrf_token %}
+
+                            <input
+                                type="hidden"
+                                name="quantity"
+                                value="1"
+                            >
+
+                            <button
+                                type="submit"
+                                class="cart-btn"
+                            >
+                                🛒 Add to Cart
+                            </button>
+
+                        </form>
+
+
+                        <!-- Product Details -->
+
+                        <a
+                            href="{% url 'product_detail' product.id %}"
+                            class="view-product-btn"
+                        >
+                            View Details →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+                <div class="no-products">
+                    <p>No products available.</p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="about" id="about">
+
+        <div class="section-heading">
+
+            <p>WHY SHOPEASE?</p>
+
+            <h2>
+                Shopping Made Simple
+            </h2>
+
+            <span>
+                Everything you need for a smooth and secure shopping experience.
+            </span>
+
+        </div>
+
+
+        <div class="features">
+
+            <div>
+
+                <span>🚚</span>
+
+                <h3>
+                    Fast Delivery
+                </h3>
+
+                <p>
+                    Quick and reliable delivery right to your doorstep.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>🔒</span>
+
+                <h3>
+                    Secure Shopping
+                </h3>
+
+                <p>
+                    Your shopping experience is safe and secure.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>⭐</span>
+
+                <h3>
+                    Quality Products
+                </h3>
+
+                <p>
+                    Carefully selected products at great prices.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="contact">
+
+        <div class="footer-content">
+
+            <h2>
+                🛍️ ShopEase
+            </h2>
+
+            <p>
+                Your simple destination for quality products.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="#products">
+                Products
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="{% url 'cart' %}">
+                Cart
+            </a>
+
+            <a href="{% url 'account' %}">
+                My Account
+            </a>
+
+        </div>
+
+
+        <p class="copyright">
+            © 2026 ShopEase. All rights reserved.
+        </p>
+
+    </footer>
+
+
+</body>
+</html>
